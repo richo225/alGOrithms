@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sort"
 	"strconv"
 
 	helpers "github.com/richo225/alGOrithms"
@@ -49,6 +50,9 @@ func main() {
 }
 
 func binarySearch(slice []int, target int) (int, int) {
+	// Sort slice
+	sort.Ints(slice)
+
 	// Initialize left and right indices
 	left := 0
 	right := len(slice) - 1
