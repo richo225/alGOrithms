@@ -33,27 +33,40 @@ func quickSort(slice []int) {
 		return
 	}
 
-	// select a pivot
-	pivot := (slice)[len(slice)-1]
+	// Partition the slice
+	pivotIndex := partition(slice)
 
-	var less []int
-	var greater []int
-	for i := 0; i < len(slice)-1; i++ {
-		if (slice)[i] <= pivot {
-			// set slice of all values less than pivot
-			less = append(less, (slice)[i])
-		} else {
-			// set slice of all values greater than pivot
-			greater = append(greater, (slice)[i])
+	// Recursively sort high and low halves
+	quickSort(slice[0:pivotIndex])
+	quickSort(slice[pivotIndex+1:])
+}
+
+func partition(slice []int) int {
+	// Set the lower and upper indexes.
+	lo := 0
+	hi := len(slice) - 1
+
+	// Use the last element as the pivot.
+	pivot := slice[hi]
+
+	// Temporary pivot index
+	i := lo - 1
+
+	for j := lo; j < hi; j++ {
+		// See if slice[j] <= pivot.
+		if slice[j] <= pivot {
+			// Move the temporary pivot index forward
+			i = i + 1
+
+			// Swap slice[i] and slice[j].
+			slice[i], slice[j] = slice[j], slice[i]
 		}
 	}
 
-	// run quicksort on less
-	quickSort(less)
+	// Drop the pivot between teh two halves.
+	i = i + 1
+	slice[i], slice[hi] = slice[hi], slice[i]
 
-	// run quicksort on greater
-	quickSort(greater)
-
-	// combine together and update original slice
-	copy(slice, append(append(less, pivot), greater...))
+	// Return the pivot's index.
+	return i
 }
